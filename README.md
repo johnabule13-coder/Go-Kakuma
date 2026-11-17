@@ -23,7 +23,7 @@ Rider: onboarding (ID type, ID photo, plate, licence), pending approval, online 
    **Rider approvals** screen: it lists pending riders with their ID and licence photos and Approve / Reject buttons.
 
 ## Deploy the web app to Vercel
-1. In Vercel, set the project **Root Directory** to `go-kakuma` (the folder containing this `package.json`).
+1. In Vercel, set the project **Root Directory** to the repository root (`.`), where this `package.json` lives.
 2. Use `npm run build` as the build command and `dist` as the output directory. `vercel.json` contains these settings.
 3. Add the six `EXPO_PUBLIC_FIREBASE_*` values from `.env` to the Vercel project's Environment Variables for Production (and Preview if needed), then redeploy. Do not commit `.env`; Expo embeds these public Firebase configuration values in the web bundle.
 4. In Firebase Console, add `gokakuma.org` and `www.gokakuma.org` under Authentication → Settings → Authorized domains. Ensure Google is enabled under Authentication → Sign-in method.
