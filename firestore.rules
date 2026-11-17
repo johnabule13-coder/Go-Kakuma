@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function isAdmin() {
+      return get(/databases/$(db)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth.uid == uid && request.resource.data.role in ['passenger', 'rider'];
+      allow update: if isAdmin()
+        // owners cannot change their role or approve themselves
+        || (request.auth.uid == uid
+            && request.resource.data.role == resource.data.role
+            && (request.resource.data.get('riderStatus', null) in [null, 'pending']
+                || request.resource.data.get('riderStatus', null) == resource.data.get('riderStatus', null)))
+        // anyone can add a rating
+        || (request.auth != null && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ratingSum', 'ratingCount']));
+    }
+    match /rides/{id} {
+      allow read: if request.auth != null;
+      allow create: if request.auth.uid == request.resource.data.passengerId;
+      allow update: if request.auth != null;   // tighten with Cloud Functions before launch
+    }
+    match /alerts/{id} { allow create: if request.auth != null; allow read: if isAdmin(); }
+  }
+}

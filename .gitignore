@@ -1,0 +1,28 @@
+node_modules/
+.expo/
+dist/
+.vercel/
+coverage/
+
+# Environment files may contain Firebase or OAuth credentials.
+.env*
+!.env.example
+
+# Local credentials and signing keys.
+*service-account*.json
+*firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+*.pem
+*.p12
+*.key
+
+# Local-only screenshots and logs.
+/GOK GGLE.jpe
+*.log
+npm-debug.log*
+
+# Operating system and editor files.
+.DS_Store
+Thumbs.db
+.idea/
